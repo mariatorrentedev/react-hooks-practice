@@ -1,5 +1,5 @@
 // Destructure to call the buildIn State, to not use Class Components.
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "./useForm";
 
 /*If there is a big computation is better to
@@ -16,6 +16,8 @@ import { useForm } from "./useForm";
  const x = useState(()=> initialState());
 */
 const App = () => {
+  //useState
+
   //Example using strings or Numbers as parameters in state.
   const [count, setCount] = useState(10);
   //Example using an object, value:key pairs as parameters in state.
@@ -30,6 +32,11 @@ const App = () => {
     password: "",
   });
 
+  // useEffect --> *first parameter: "this triggers depending on the second parameter, if no parameter is passed, it is called everytime the component renders", this function gets called. **Second parameter is the dependancy array that can be passed in. (is kind of a filter').
+  // replace the ComponentDidMount && ComponentDidUnmount.
+  useEffect(() => {
+    console.log("First Parameter");
+  }, [values.password]);
   return (
     <main className="App">
       {/*  cCount = the current count(current state ) (* avoid over rendering*/}

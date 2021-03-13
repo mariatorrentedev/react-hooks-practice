@@ -1,6 +1,8 @@
 // Destructure to call the buildIn State, to not use Class Components.
 import React, { useEffect, useState } from "react";
 import { useForm } from "./useForm";
+import { UnmountingExample } from "./unmountingExample";
+import { useFetch } from "./useFetch";
 
 /*If there is a big computation is better to
  create a function instead of pasing the parameter directetly to the useState(), 
@@ -32,11 +34,23 @@ const App = () => {
     password: "",
   });
 
-  // useEffect --> *first parameter: "this triggers depending on the second parameter, if no parameter is passed, it is called everytime the component renders", this function gets called. **Second parameter is the dependancy array that can be passed in. (is kind of a filter').
+  // useEffect --> *first parameter: "this triggers depending on the second parameter, if no parameter is passed, it is called everytime the component renders, but if the secondParameter is passed as an empty arr=[] just renders ONCE. **Second parameter is the dependancy array that can be passed in. (is kind of a filter').
   // replace the ComponentDidMount && ComponentDidUnmount.
   useEffect(() => {
     console.log("First Parameter");
   }, [values.password]);
+
+  // Example just a render when the component Mounts.
+  useEffect(() => {
+    console.log("One Render");
+  }, []);
+
+  //Using a custom reusable fetch hook.
+  const [count2, setCountData] = useState(0);
+
+  const { data, loading } = useFetch(`http://numbersapi.com/${count2}/trivia`);
+
+  const [show, setShow] = useState(true);
   return (
     <main className="App">
       {/*  cCount = the current count(current state ) (* avoid over rendering*/}
@@ -71,6 +85,16 @@ const App = () => {
         onChange={handleChange}
         name="password"
       />
+
+      <hr />
+      <h2>Mounting And Unmounting Example when toggles using useEffect</h2>
+      <button onClick={() => setShow(!show)}>Toggle Me</button>
+      {show && <UnmountingExample />}
+      <hr />
+      <h2>Fetching from an API:</h2>
+      {!data ? "Loading..." : data}
+      <div>count: {count2}</div>
+      <button onClick={() => setCountData((c) => c + 1)}>Change Fact</button>
     </main>
   );
 };

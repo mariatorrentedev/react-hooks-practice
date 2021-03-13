@@ -1,5 +1,6 @@
 // Destructure to call the buildIn State, to not use Class Components.
 import React, { useState } from "react";
+import { useForm } from "./useForm";
 
 /*If there is a big computation is better to
  create a function instead of pasing the parameter directetly to the useState(), 
@@ -21,6 +22,12 @@ const App = () => {
   const [{ countObj, countObj2 }, setCountObj] = useState({
     countObj: 10,
     countObj2: 30,
+  });
+
+  //Form Example
+  const [values, handleChange] = useForm({
+    email: "",
+    password: "",
   });
 
   return (
@@ -47,6 +54,16 @@ const App = () => {
       </button>
       <h2>Count 1: {countObj}</h2>
       <h2>Count 2: {countObj2}</h2>
+
+      <hr />
+      <h2>Forms</h2>
+      <input name="email" value={values.email} onChange={handleChange} />
+      <input
+        type="password"
+        value={values.password}
+        onChange={handleChange}
+        name="password"
+      />
     </main>
   );
 };

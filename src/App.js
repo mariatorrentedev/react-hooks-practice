@@ -1,5 +1,5 @@
 // Destructure to call the buildIn State, to not use Class Components.
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useForm } from "./useForm";
 import { UnmountingExample } from "./unmountingExample";
 import { useFetch } from "./useFetch";
@@ -50,6 +50,9 @@ const App = () => {
 
   const { data, loading } = useFetch(`http://numbersapi.com/${count2}/trivia`);
 
+  // instance if our hook
+  const inputRef = useRef();
+
   const [show, setShow] = useState(true);
   return (
     <main className="App">
@@ -75,16 +78,24 @@ const App = () => {
       </button>
       <h2>Count 1: {countObj}</h2>
       <h2>Count 2: {countObj2}</h2>
-
       <hr />
       <h2>Forms</h2>
-      <input name="email" value={values.email} onChange={handleChange} />
+      <input
+        ref={inputRef}
+        name="email"
+        value={values.email}
+        onChange={handleChange}
+      />
       <input
         type="password"
         value={values.password}
         onChange={handleChange}
         name="password"
       />
+      <button onClick={() => console.log(inputRef.current.focus())}>
+        {" "}
+        FOCUS{" "}
+      </button>
 
       <hr />
       <h2>Mounting And Unmounting Example when toggles using useEffect</h2>
